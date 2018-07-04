@@ -1,11 +1,11 @@
 <?php if (!defined("IN_WALLET")) { die("Auth Error!"); } ?>
-<a href="?a=home" class="btn btn-default">Go back to admin home</a>
+<a href="?a=home" class="btn btn-secondary">Go back to admin home</a>
 <br /><br />
 <?php
 if (!empty($info) && is_array($info))
 {
 ?>
-<p>User <strong><?php echo $info['username']; ?></strong>:</p>
+<h2>User <strong><?php echo $info['username']; ?></strong>:</h2>
 <table class="table table-bordered table-striped">
 <thead>
    <tr>
@@ -27,26 +27,28 @@ if (!empty($info) && is_array($info))
 <br />
 <p>Set new password:</p>
 <form action="<?php echo '?a=info&i=' . $info['id']; ?>" method="POST" class="clearfix" id="pwdform">
-    <input type="hidden" name="action" value="password" />
-    <div class="col-md-4"><input type="password" class="form-control" name="password" placeholder="New password"></div>
-    <div class="col-md-2"><button type="submit" class="btn btn-default">Change password</button></div>
+    <div class="form-row">
+        <input type="hidden" name="action" value="password" />
+        <div class="col-auto my-1"><input type="password" class="form-control" name="password" placeholder="New password"></div>
+        <div class="col-auto ml-md-auto my-1"><button type="submit" class="btn btn-primary">Change password</button></div>
+    </div>
 </form>
 <p id="pwdmsg"></p>
 <br />
 <p>Withdraw funds:</p>
 <form action="<?php echo '?a=info&i=' . $info['id']; ?>" method="POST" class="clearfix" id="withdrawform">
-    <input type="hidden" name="action" value="withdraw" />
-    <div class="col-md-4"><input type="text" class="form-control" name="address" placeholder="Address"></div>
-    <div class="col-md-2"><input type="text" class="form-control" name="amount" placeholder="Amount"></div>
-    <div class="col-md-2"><button type="submit" class="btn btn-default">Withdraw</button></div>
+    <div class="form-row">
+        <input type="hidden" name="action" value="withdraw" />
+        <div class="col-auto my-1"><input type="text" class="form-control" name="address" placeholder="Address"></div>
+        <div class="col-auto my-1"><input type="text" class="form-control" name="amount" placeholder="Amount"></div>
+        <div class="col-auto ml-md-auto my-1"><button type="submit" class="btn btn-primary">Withdraw</button></div>
+    </div>
 </form>
 <p id="withdrawmsg"></p>
-<br />
-<p>Addresses:</p>
-<form action="<?php echo '?a=info&i=' . $info['id']; ?>" method="POST" id="newaddressform">
-   <input type="hidden" name="action" value="new_address" />
-   <button type="submit" class="btn btn-default">Get a new address</button>
-</form>
+
+<div class="my-5"></div>
+
+<h3>Addresses:</h3>
 <p id="newaddressmsg"></p>
 <br />
 <table class="table table-bordered table-striped" id="alist">
@@ -64,6 +66,17 @@ echo "<tr><td>".$address."</td></tr>\n";
 ?>
 </tbody>
 </table>
+<form action="<?php echo '?a=info&i=' . $info['id']; ?>" method="POST" id="newaddressform">
+    <div class="form-row">
+        <input type="hidden" name="action" value="new_address" />
+        <div class="col-auto ml-md-auto my-1">
+            <button type="submit" class="btn btn-primary">Get a new address</button>
+        </div>
+   </div>
+</form>
+
+<div class="my-5"></div>
+
 <p>Last 10 transactions:</p>
 <table class="table table-bordered table-striped" id="txlist">
 <thead>

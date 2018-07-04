@@ -22,6 +22,10 @@ class User {
 	function logIn($username, $password)
 
 	{
+
+		// TODO: make captcha
+		sleep(5);
+
 		if (empty($username) || empty($password))
 
 		{
@@ -30,7 +34,9 @@ class User {
 		else {
 			$auth=$_POST['auth'];
 			$username = $this->mysqli->real_escape_string(strip_tags($username));
-      		  	$password = md5(addslashes(strip_tags($password	))); 
+					$password = md5(addslashes(strip_tags($password	))); 
+					
+
 			$auth = $this->mysqli->real_escape_string(	strip_tags(	$auth));
         		$result	= $this->mysqli->query("SELECT * FROM users WHERE username='" . $username . "'");
                  	$user = $result->fetch_assoc();

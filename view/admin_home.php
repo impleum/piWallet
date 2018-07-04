@@ -9,7 +9,7 @@ if (!empty($msg))
     echo "<p style='font-weight: bold; color: green;'>" . $msg['message']; "</p>";
 }
 ?>
-<a href="?" class="btn btn-default">Go back to wallet</a>
+<a href="?" class="btn btn-secondary">Go back to wallet</a>
 <br /><br />
 <p>List of all users:</p>
 <table class="table table-bordered table-striped" id="userlist">

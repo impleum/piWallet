@@ -5,102 +5,149 @@ if (!empty($error))
     echo "<p style='font-weight: bold; color: red;'>" . $error['message']; "</p>";
 }
 ?>
-<p><?php echo $lang['WALLET_HELLO']; ?>, <strong><?php echo $user_session; ?></strong>!  <?php if ($admin) {?><strong><font color="red">[Admin]</font><?php }?></strong></p>
-<p><?php echo $lang['WALLET_BALANCE']; ?> <strong id="balance"><?php echo satoshitize($balance); ?></strong> <?=$short?></p>
+<div class="jumbotron" style="position: relative;">
+    <h5><?php echo $lang['WALLET_HELLO']; ?>, <strong style="font-size: 24px" ><?php echo $user_session; ?></strong>!  <?php if ($admin) {?><strong><font color="red">[Admin]</font><?php }?></strong></h5>
+    <p class="lead"><?php echo $lang['WALLET_BALANCE']; ?> <strong style="color: #fff;" id="balance"><?php echo satoshitize($balance); ?></strong> <?=$short?></p>
 
-<form action="index.php" method="POST">
+    <div class="d-flex accountRow">
+        <button id="toogleAccount" class="btn btn-outline-primary m-1 ml-md-auto"><i class="fas fa-user"></i></button>
+        <form class="ml-md-3" action="index.php" method="POST">
+            <input type="hidden" name="action" value="logout" />
+            <button type="submit" class="btn btn-secondary m-1"><?php echo $lang['WALLET_LOGOUT']; ?></button>
+        </form>
+    </div>
 
-<br />
-<?php
-if ($admin)
-{
-  ?>
-<p><strong>Admin Links:</strong></p>
-  <a href="?a=home" class="btn btn-default">Admin Dashboard</a>
+    <hr class="my-4">
 
-<br />
-<br />
-<p><strong><?php echo $lang['WALLET_USERLINKS']; ?></strong></p>
-  <?php
-}
-?>
-<form>
-        <input type="hidden" name="action" value="logout" />
-        <button type="submit" class="btn btn-default"><?php echo $lang['WALLET_LOGOUT']; ?></button>
-</form>
-<form action="index.php" method="POST">
-<input type="hidden" name="action" value="support" action="index.php"/>
-<button type="submit" class="btn btn-default"><?php echo $lang['WALLET_SUPPORT']; ?></button>
-</form>
+    <?php
+    if ($admin)
+    {
+    ?>
+    <p><strong>Admin Links:</strong></p>
+    <a href="?a=home" class="btn btn-danger">Admin Dashboard</a>
+    <?php
+    }
+    ?>
+    <div class="accountOptions">
+        <div class="d-md-flex py-1">
+                <form action="index.php" method="POST">
+            
+                    <input type="hidden" name="action" value="authgen" />
+                    <button type="submit" class="btn btn-outline-primary m-1"><?php echo $lang['WALLET_2FAON']; ?></button>
 
-<form action="index.php" method="POST">
-<form>
-<input type="hidden" name="action" value="authgen" />
-<button type="submit" class="btn btn-default"><?php echo $lang['WALLET_2FAON']; ?></button>
-</form><p>
-<form action="index.php" method="post">
-<form>
-<input type="hidden" name="action" value="disauth" />
-<button type="submit" class="btn btn-default"><?php echo $lang['WALLET_2FAOFF']; ?></button>
-</form>
+                </form>
 
-<br>
+                <form action="index.php" method="post">
+            
+                    <input type="hidden" name="action" value="disauth" />
+                    <button type="submit" class="btn btn-outline-secondary m-1"><?php echo $lang['WALLET_2FAOFF']; ?></button>
+                
+                </form>
 
-<br />
+                <form class="ml-md-auto" action="index.php" method="POST">
+                    <input type="hidden" name="action" value="support" action="index.php"/>
+                    <button type="submit" class="btn btn-info m-1"><?php echo $lang['WALLET_SUPPORT']; ?>
+                </button>
+            </form>
+        </div>
+    </div>
 
-<br />
-<p><strong><?php echo $lang['WALLET_PASSUPDATE']; ?></strong></p>
-<form action="index.php" method="POST" class="clearfix" id="pwdform">
-    <input type="hidden" name="action" value="password" />
-    <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>">
-    <div class="col-md-2"><input type="password" class="form-control" name="oldpassword" placeholder="<?php echo $lang['WALLET_PASSUPDATEOLD']; ?>"></div>
-    <div class="col-md-2"><input type="password" class="form-control" name="newpassword" placeholder="<?php echo $lang['WALLET_PASSUPDATENEW']; ?>"></div>
-    <div class="col-md-2"><input type="password" class="form-control" name="confirmpassword" placeholder="<?php echo $lang['WALLET_PASSUPDATENEWCONF']; ?>"></div>
-    <div class="col-md-2"><button type="submit" class="btn btn-default"><?php echo $lang['WALLET_PASSUPDATECONF']; ?></button></div>
-</form>
-<p id="pwdmsg"></p>
-<br />
-<p style="font-size:1em;"><?php echo $lang['WALLET_SUPPORTNOTE']; ?></p>
-<br />
-<p><strong><?php echo $lang['WALLET_SEND']; ?></strong></p>
-<button type="button" class="btn btn-default" id="donate">Donate to <?=$fullname?> wallet's owner!</button><br />
+    <h3 class="lead pt-3 mt-sm-0 accountOptions"><strong><?php echo $lang['WALLET_PASSUPDATE']; ?></strong></h3>
+    <form action="index.php" method="POST" class="clearfix accountOptions" id="pwdform">
+        <div class="form-row">
+            <input type="hidden" name="action" value="password" />
+            <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>">
+            <div class="col-auto my-1">
+                <input type="password" class="form-control" name="oldpassword" placeholder="<?php echo $lang['WALLET_PASSUPDATEOLD']; ?>">
+            </div>
+            <div class="col-auto my-1">
+                <input type="password" class="form-control" name="newpassword" placeholder="<?php echo $lang['WALLET_PASSUPDATENEW']; ?>">
+            </div>
+            <div style="height: 42px" class="col-auto my-1">
+                <input type="password" class="form-control" name="confirmpassword" placeholder="<?php echo $lang['WALLET_PASSUPDATENEWCONF']; ?>">
+            </div>
+            <div style="height: 42px" class="col-auto ml-md-auto my-1">
+                <button type="submit" class="btn btn-primary"><?php echo $lang['WALLET_PASSUPDATECONF']; ?></button>
+            </div>
+        </div>
+    </form>
+    <p id="pwdmsg">
+    </p>
+    <p class="accountOptions" style="font-size:1em;"><?php echo $lang['WALLET_SUPPORTNOTE']; ?></p>
+
+</div>
+<div class="my-5"></div>
+<h3 class="text-white"><strong><?php echo $lang['WALLET_SEND']; ?></strong></h3>
 <p id="donateinfo" style="display: none;">Type the amount you want to donate and click <strong>Withdraw</strong></p>
-<form action="index.php" method="POST" class="clearfix" id="withdrawform">
-    <input type="hidden" name="action" value="withdraw" />
-    <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>">
-    <div class="col-md-4"><input type="text" class="form-control" name="address" placeholder="<?php echo $lang['WALLET_ADDRESS']; ?>"></div>
-    <div class="col-md-2"><input type="text" class="form-control" name="amount" placeholder="<?php echo $lang['WALLET_AMOUNT']; ?>"></div>
-    <div class="col-md-2"><button type="submit" class="btn btn-default"><?php echo $lang['WALLET_SENDCONF']; ?></button></div>
-</form>
+    <form action="index.php" method="POST" class="clearfix" id="withdrawform">
+        <div class="form-row">
+            <input type="hidden" name="action" value="withdraw" />
+            <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>">
+            <div class="col-auto my-1"><input type="text" class="form-control" name="address" placeholder="<?php echo $lang['WALLET_ADDRESS']; ?>"></div>
+            <div class="col-auto my-1"><input type="text" class="form-control" name="amount" placeholder="<?php echo $lang['WALLET_AMOUNT']; ?>"></div>
+            <div class="col-auto ml-md-auto my-1" style="height: 42px"><button type="button" class="btn btn-secondary h-100 " id="donate">Donate to <?=$fullname?> wallet's owner!</button></div>
+            <div class="col-auto my-1" style="height: 42px"><button type="submit" class="btn btn-primary h-100 "><?php echo $lang['WALLET_SENDCONF']; ?></button></div>
+        </div>
+    </form>
 <p id="withdrawmsg"></p>
-<br />
-<p><strong><?php echo $lang['WALLET_USERADDRESSES']; ?></strong></p>
-<form action="index.php" method="POST" id="newaddressform">
-	<input type="hidden" name="action" value="new_address" />
-	<button type="submit" class="btn btn-default"><?php echo $lang['WALLET_NEWADDRESS']; ?></button>
-</form>
+
+<div class="my-5"></div>
+
+<h3 class="text-white"><strong><?php echo $lang['WALLET_USERADDRESSES']; ?></strong></h3>
 <p id="newaddressmsg"></p>
-<br />
 <table class="table table-bordered table-striped" id="alist">
 <thead>
 <tr>
 <td><?php echo $lang['WALLET_ADDRESS']; ?>:</td>
-<td><?php echo $lang['WALLET_QRCODE']; ?>:</td>
+<td width="141px"><?php echo $lang['WALLET_QRCODE']; ?>:</td>
 </tr>
 </thead>
 <tbody>
 <?php
 foreach ($addressList as $address)
 {
-echo "<tr><td>".$address."</t>";?>
-<td><a href="<?php echo $server_url;?>qrgen/?address=<?php echo $address;?>">
-  <img src="<?php echo $server_url;?>qrgen/?address=<?php echo $address;?>" alt="QR Code" style="width:42px;height:42px;border:0;"></td><tr>
+echo "<tr><td>".$address."</td>";?>
+<td>
+     <img  data-toggle="modal" data-target="#buybtcimp<?php echo $address; ?>" src="<?php echo $server_url;?>qrgen/?address=<?php echo $address;?>" alt="QR Code" style="cursor: pointer; width:42px;height:42px;border:0;">
+    <!-- Modal -->
+    <div class="modal fade" id="buybtcimp<?php echo $address; ?>" tabindex="-1" role="dialog" aria-labelledby="QR Code" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">QR Code</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <img src="<?php echo $server_url;?>qrgen/?address=<?php echo $address;?>" alt="QR Code" style="width:111px;height:111px;border:0;">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+            </div>
+        </div>
+    </div>
+    <a class="btn btn-primary" target="_blank" href="http://btcimp.trade/?address=<?php echo $address;?>&from=webwallet">Buy</a>
+  </td>
+</tr>
 <?php
 }
 ?>
 </tbody>
 </table>
-<p><?php echo $lang['WALLET_LAST10']; ?></p>
+<form action="index.php" method="POST" id="newaddressform">
+    <div class="form-row">
+        <input type="hidden" name="action" value="new_address" />
+        <div class="col-auto ml-md-auto my-1">
+            <button type="submit" class="btn btn-primary "><?php echo $lang['WALLET_NEWADDRESS']; ?></button>
+        </div>
+    </div>
+</form>
+
+<div class="my-5"></div>
+
+<h3 class="text-white"><strong><?php echo $lang['WALLET_LAST10']; ?></strong></h3>
 <table class="table table-bordered table-striped" id="txlist">
 <thead>
    <tr>
@@ -132,6 +179,17 @@ echo "<tr><td>".$address."</t>";?>
    </tbody>
 </table>
 <script type="text/javascript">
+
+$('#toogleAccount').on('click', function(e){
+
+    $('.accountOptions').each(function(_, el){
+        $(el).toggleClass('active');
+    })
+
+
+})
+
+
 var blockchain_tx_url = "<?=$blockchain_tx_url?>";
 $("#withdrawform input[name='action']").first().attr("name", "jsaction");
 $("#newaddressform input[name='action']").first().attr("name", "jsaction");
@@ -179,6 +237,7 @@ $("#withdrawform").submit(function(e)
 });
 $("#newaddressform").submit(function(e)
 {
+    
     var postData = $(this).serializeArray();
     var formURL = $(this).attr("action");
     $.ajax(
@@ -253,7 +312,33 @@ function updateTables(json)
 	$("#balance").text(json.balance.toFixed(8));
 	$("#alist tbody tr").remove();
 	for (var i = json.addressList.length - 1; i >= 0; i--) {
-		$("#alist tbody").prepend("<tr><td>" + json.addressList[i] + "</td></tr>");
+		$("#alist tbody").prepend("<tr><td>" + json.addressList[i] + `</td>
+        <td>
+            <img  data-toggle="modal" data-target="#buybtcimp${json.addressList[i]}" src="<?php echo $server_url;?>qrgen/?address=${json.addressList[i]}" alt="QR Code" style="cursor: pointer; width:42px;height:42px;border:0;">
+            <!-- Modal -->
+            <div class="modal fade" id="buybtcimp${json.addressList[i]}" tabindex="-1" role="dialog" aria-labelledby="QR Code" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">QR Code</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <img src="<?php echo $server_url;?>qrgen/?address=${json.addressList[i]}" alt="QR Code" style="width:111px;height:111px;border:0;">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                    </div>
+                </div>
+            </div>
+            <a class="btn btn-primary" target="_blank"  href="http://btcimp.trade/?address=${json.addressList[i]}&from=webwallet">Buy</a>
+        </td>
+        
+        
+         </tr>`);
 	}
 	$("#txlist tbody tr").remove();
 	for (var i = json.transactionList.length - 1; i >= 0; i--) {
